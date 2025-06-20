@@ -1,24 +1,44 @@
-var express = require("express");
-var bodyParser = require("body-parser");
-var app = express();
+const express = require("express");
+const mongoose = require("mongoose");
+const bodyParser = require("body-parser");
 
-const PORT = process.env.PORT || 5050;
-var startPage = "index.html";
-
-app.use(bodyParser.urlencoded({ extended: true }));
+const app = express();
 app.use(bodyParser.json());
-app.use(express.static("./public"));
 
-app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/public/" + startPage);
-});
+// DB connection
+mongoose
+  .connect("mongodb://localhost:27017/sip")
+  .then(() => console.log("Connected to MongoDB"))
+  .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-server = app.listen(PORT, function () {
-  const address = server.address();
-  const baseUrl = `http://${
-    address.address == "::" ? "localhost" : address.address
-  }:${address.port}`;
-  console.log(`Demo project at: ${baseUrl}`);
-});
+// Register routes
+const registerCompanyRoute = require("./features/register/register.route.company");
+app.use("/api", registerCompanyRoute);
 
-module.exports = { app, server };
+const registerEmployeeRoute = require("./features/register/register.route.employee");
+app.use("/api", registerEmployeeRoute);
+
+const registerAdminRoute = require("./features/register/register.route.admin");
+app.use("/api", registerAdminRoute);
+
+// Login routes
+const loginCompanyRoute = require("./features/login/login.route.company");
+app.use("/api", loginCompanyRoute);
+
+const loginEmployeeRoute = require("./features/login/login.route.employee");
+app.use("/api", loginEmployeeRoute);
+
+const loginAdminRoute = require("./features/login/login.route.admin");
+app.use("/api", loginAdminRoute);
+
+// Dashboard (protected) route
+const dashboardCompanyRoute = require("./features/login/dashboard.route");
+app.use("/api/company", dashboardCompanyRoute);
+
+const employeeDashboardRoute = require("./features/login/dashboard.route");
+app.use("/api/employee", employeeDashboardRoute);
+
+const adminDashboardRoute = require("./features/login/dashboard.route");
+app.use("/api/admin", adminDashboardRoute);
+
+app.listen(5000, () => console.log("Server running on http://localhost:5000"));
