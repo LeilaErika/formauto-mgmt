@@ -1,44 +1,41 @@
+// index.js
 const express = require("express");
 const mongoose = require("mongoose");
-const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+
+dotenv.config(); // Load .env variables
 
 const app = express();
-app.use(bodyParser.json());
 
-// DB connection
+// Middleware
+app.use(express.json()); // Instead of bodyParser.json()
+
+// MongoDB Connection
 mongoose
-  .connect("mongodb://localhost:27017/sip")
-  .then(() => console.log("Connected to MongoDB"))
+  .connect(process.env.MONGO_URI || "mongodb://localhost:27017/sip", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Connected to MongoDB"))
   .catch((err) => console.error("❌ MongoDB connection error:", err));
 
-// Register routes
-const registerCompanyRoute = require("./features/register/register.route.company");
-app.use("/api", registerCompanyRoute);
+// Route Imports
+const companyRoutes = require("./routes/companyRoutes");
+const sipRoutes = require("./routes/sipRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
-const registerEmployeeRoute = require("./features/register/register.route.employee");
-app.use("/api", registerEmployeeRoute);
+// Route Mounting
+app.use("/api/company", companyRoutes); // UEN check, register, login, profile
+app.use("/api/sip", sipRoutes); // SIP form CRUD for companies
+app.use("/api/admin", adminRoutes); // Admin portal routes
 
-const registerAdminRoute = require("./features/register/register.route.admin");
-app.use("/api", registerAdminRoute);
+// Health Check Route
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok", message: "SIP API is running" });
+});
 
-// Login routes
-const loginCompanyRoute = require("./features/login/login.route.company");
-app.use("/api", loginCompanyRoute);
-
-const loginEmployeeRoute = require("./features/login/login.route.employee");
-app.use("/api", loginEmployeeRoute);
-
-const loginAdminRoute = require("./features/login/login.route.admin");
-app.use("/api", loginAdminRoute);
-
-// Dashboard (protected) route
-const dashboardCompanyRoute = require("./features/login/dashboard.route");
-app.use("/api/company", dashboardCompanyRoute);
-
-const employeeDashboardRoute = require("./features/login/dashboard.route");
-app.use("/api/employee", employeeDashboardRoute);
-
-const adminDashboardRoute = require("./features/login/dashboard.route");
-app.use("/api/admin", adminDashboardRoute);
-
-app.listen(5000, () => console.log("Server running on http://localhost:5000"));
+// Server Start
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () =>
+  console.log(`🚀 Server running on http://localhost:${PORT}`)
+);

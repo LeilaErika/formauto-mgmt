@@ -1,14 +1,14 @@
 const mongoose = require("mongoose");
 
-const companySchema = new mongoose.Schema({
-  companyName: { type: String, required: true },
-  email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
-  uen: { type: String, unique: true }, // Automatically generated
-  role: { type: String, default: "company" },
-  createdAt: { type: Date, default: Date.now },
-});
+const companySchema = new mongoose.Schema(
+  {
+    uen: { type: String, required: true, unique: true },
+    email: { type: String, required: true, unique: true },
+    password: { type: String, required: true }, // hashed
+  },
+  { timestamps: true }
+);
 
 module.exports = mongoose.model("Company", companySchema);
-// This code defines a Mongoose schema for a Company model.
-// It includes fields for company name, email, password, UEN (unique entity number),
+// and generates a JWT token for the company user upon successful login.
+// It responds with a success message, the generated token, and company details.  
