@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Company Profile</title>
+    <style>
+      body {
+        background: #fff;
+        min-height: 100vh;
+        margin: 0;
+        font-family: Arial, sans-serif;
+        color: #333;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .header {
+        color: #fff;
+        background: #d71920;
+        width: 100vw;
+        padding: 1.5rem 0;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .buttons {
+        display: flex;
+        gap: 1rem;
+        margin-bottom: 2rem;
+      }
+      .buttons button,
+      .buttons a {
+        background: #d71920;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.75rem 1.25rem;
+        font-size: 1rem;
+        font-weight: bold;
+        cursor: pointer;
+        text-decoration: none;
+        text-align: center;
+        transition: background 0.2s;
+      }
+      .buttons button:hover,
+      .buttons a:hover {
+        background: #b9151a;
+      }
+      .form-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        justify-content: center;
+        width: 90%;
+        max-width: 1000px;
+      }
+      .form-card {
+        background: #f5f5f5;
+        padding: 1.5rem 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        min-width: 250px;
+        flex: 1 1 300px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+      .form-card h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        color: #d71920;
+      }
+      .form-card p {
+        margin: 0;
+        font-size: 0.95rem;
+        color: #333;
+        word-break: break-word;
+      }
+      .form-card button {
+        background: #0072ce;
+        margin-top: 1rem;
+      }
+      .form-card button:hover {
+        background: #005bb5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Company Profile</div>
+    <div class="buttons">
+      <button id="logoutBtn">Logout</button>
+    </div>
+    <div class="form-container" id="profileData">
+      <!-- SIP Forms will be inserted here -->
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:5000/api/company";
+
+      async function loadSIPForms() {
+        const token = localStorage.getItem("token");
+        if (!token) {
+          window.location.href = "index.html";
+          return;
+        }
+
+        try {
+          const res = await fetch(`${API_BASE}/sip-forms`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          if (!res.ok)
+            throw new Error(data.message || "Failed to load SIP Forms");
+
+          const container = document.getElementById("profileData");
+          container.innerHTML = "";
+
+          if (!data.sipForms || data.sipForms.length === 0) {
+            container.textContent = "No SIP Forms found.";
+            return;
+          }
+
+          data.sipForms.forEach((form, idx) => {
+            const card = document.createElement("div");
+            card.className = "form-card";
+
+            const title = document.createElement("h3");
+            title.textContent = `SIP Form ${idx + 1}`;
+            card.appendChild(title);
+
+            for (const key in form) {
+              if (Object.hasOwnProperty.call(form, key)) {
+                const p = document.createElement("p");
+                p.innerHTML = `<strong>${key}:</strong> ${form[key]}`;
+                card.appendChild(p);
+              }
+            }
+
+            // Optional: add a view/edit button for each form
+            const btn = document.createElement("button");
+            btn.textContent = "View/Edit";
+            btn.onclick = () => {
+              alert(`You clicked on SIP Form ${idx + 1}`);
+              // You can replace this with a redirect to the SIP Form edit page
+            };
+            card.appendChild(btn);
+
+            container.appendChild(card);
+          });
+        } catch (err) {
+          alert(err.message);
+          localStorage.removeItem("token");
+          window.location.href = "index.html";
+        }
+      }
+
+      document.getElementById("logoutBtn").addEventListener("click", () => {
+        localStorage.clear();
+        window.location.href = "index.html";
+      });
+
+      loadSIPForms();
+    </script>
+  </body>
+</html>
