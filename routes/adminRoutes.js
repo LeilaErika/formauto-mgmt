@@ -9,7 +9,7 @@ const {
   downloadSubmissionPDF,
   exportSubmissionsToExcel,
 } = require("../controllers/adminController");
-const { verifyToken, verifyAdmin } = require("../middlewares/authMiddleware");
+const { verifyToken, verifyAdmin } = require("../middleware/authMiddleware");
 
 router.post("/login", loginAdmin);
 router.get("/submissions", verifyToken, verifyAdmin, getAllSubmissions);

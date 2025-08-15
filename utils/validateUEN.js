@@ -1,7 +1,4 @@
-exports.isValidUEN = (uen) => { ... };
-
 exports.isValidUEN = (uen) => {
-  // Singapore UEN format: 9 or 10 characters alphanumeric
-  const regex = /^[0-9A-Z]{9,10}$/;
-  return regex.test(uen);
+  // Example: UEN must be 9 or 10 alphanumeric characters
+  return typeof uen === "string" && /^[A-Za-z0-9]{9,10}$/.test(uen);
 };

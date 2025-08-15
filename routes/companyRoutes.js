@@ -5,12 +5,20 @@ const {
   registerCompany,
   loginCompany,
   getCompanyProfile,
+  getMockSIPForms,
 } = require("../controllers/companyController");
-const { verifyToken, verifyCompany } = require("../middlewares/authMiddleware");
+const {
+  verifyToken,
+  verifyCompany,
+  authenticateCompany,
+} = require("../middleware/authMiddleware");
 
-router.get("/check-uen/:uen", checkUEN);
+router.post("/check-uen", checkUEN); // expects { uen } in body
 router.post("/register", registerCompany);
 router.post("/login", loginCompany);
+
+// Mock SIP forms route (phase 2: replace with real implementation)
+router.get("/sip-forms", verifyToken, getMockSIPForms);
 router.get("/profile", verifyToken, verifyCompany, getCompanyProfile);
 
 module.exports = router;
