@@ -8,7 +8,7 @@ const {
   deleteSIPForm,
   downloadSIPFormPDF,
 } = require("../controllers/sipController");
-const { verifyToken, verifyCompany } = require("../middlewares/authMiddleware");
+const { verifyToken, verifyCompany } = require("../middleware/authMiddleware");
 
 router.post("/", verifyToken, verifyCompany, createSIPForm);
 router.get("/mine", verifyToken, verifyCompany, getMySubmissions);

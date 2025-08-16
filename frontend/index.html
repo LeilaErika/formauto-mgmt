@@ -1,0 +1,156 @@
+<style>
+  body {
+    background: #fff;
+    min-height: 100vh;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    font-family: Arial, sans-serif;
+    color: #333;
+  }
+  .header {
+    color: #fff;
+    background: #d71920;
+    width: 100vw;
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 2rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+  }
+  .card {
+    background: #f5f5f5;
+    padding: 2rem 2.5rem 1.5rem 2.5rem;
+    border-radius: 12px;
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+    min-width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .card input {
+    width: 100%;
+    margin-bottom: 1rem;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 1rem;
+    background: #fff;
+    color: #333;
+    transition: border 0.2s;
+  }
+  .card input:focus {
+    border: 1.5px solid #0072ce;
+    outline: none;
+  }
+  .card button {
+    width: 100%;
+    background: #d71920;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 0.75rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s;
+  }
+  .card button:hover {
+    background: #b9151a;
+  }
+  #uenMsg {
+    color: #d71920;
+    margin-top: 1rem;
+    text-align: center;
+    min-height: 1.5em;
+  }
+</style>
+
+<div class="header">Company UEN Check</div>
+<div class="card">
+  <form id="uenForm">
+    <input type="text" id="uen" placeholder="Enter UEN" required />
+    <button type="submit">Check UEN</button>
+  </form>
+  <div id="uenMsg"></div>
+  <button id="adminLoginBtn" style="margin-top: 1.5rem; background: #0072ce">
+    Sign in as Admin
+  </button>
+</div>
+
+<script>
+  // Admin login button
+  document
+    .getElementById("adminLoginBtn")
+    .addEventListener("click", function () {
+      window.location.href = "loginAdmin.html";
+    });
+
+  // Use the correct backend URL and match the CORS origin if needed
+  const API_BASE = "http://localhost:5000/api/company";
+
+  function validateUEN(uen) {
+    return uen && /^[A-Za-z0-9]+$/.test(uen);
+  }
+
+  document.getElementById("uenForm").addEventListener("submit", async (e) => {
+    e.preventDefault();
+    const uen = document.getElementById("uen").value.trim();
+    const uenMsg = document.getElementById("uenMsg");
+    uenMsg.textContent = "";
+
+    if (!uen) {
+      uenMsg.textContent = "UEN is required.";
+      return;
+    }
+    if (!validateUEN(uen)) {
+      uenMsg.textContent = "Please enter a valid UEN (alphanumeric only).";
+      return;
+    }
+
+    try {
+      const res = await fetch(`${API_BASE}/check-uen`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ uen }),
+      });
+
+      // Handle CORS/network errors
+      if (!res.ok) {
+        let msg = "Error checking UEN";
+        try {
+          const data = await res.json();
+          msg = data.message || msg;
+        } catch {}
+        throw new Error(msg);
+      }
+
+      const data = await res.json();
+
+      localStorage.setItem("uen", uen);
+
+      if (data.exists) {
+        uenMsg.textContent =
+          "✅ UEN recognized. Please log in to access your company profile. Redirecting…";
+        uenMsg.style.color = "#0072CE"; // blue
+        setTimeout(() => {
+          window.location.href = "login.html";
+        }, 1500);
+      } else {
+        uenMsg.textContent =
+          "⚠️ UEN not found. Please register your company to continue. Redirecting…";
+        uenMsg.style.color = "#D71920"; // red
+        setTimeout(() => {
+          window.location.href = "register.html";
+        }, 1500);
+      }
+    } catch (err) {
+      uenMsg.textContent = err.message || "Network or server error.";
+    }
+  });
+</script>
