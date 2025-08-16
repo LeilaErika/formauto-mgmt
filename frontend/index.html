@@ -78,9 +78,19 @@
     <button type="submit">Check UEN</button>
   </form>
   <div id="uenMsg"></div>
+  <button id="adminLoginBtn" style="margin-top: 1.5rem; background: #0072ce">
+    Sign in as Admin
+  </button>
 </div>
 
 <script>
+  // Admin login button
+  document
+    .getElementById("adminLoginBtn")
+    .addEventListener("click", function () {
+      window.location.href = "loginAdmin.html";
+    });
+
   // Use the correct backend URL and match the CORS origin if needed
   const API_BASE = "http://localhost:5000/api/company";
 

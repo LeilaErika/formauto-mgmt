@@ -28,17 +28,16 @@ mongoose
 
 // Route Imports
 const companyRoutes = require("./routes/companyRoutes");
+const adminRoutes = require("./routes/adminRoutes");
 
 // for now
 // const sipRoutes = require("./routes/sipRoutes");
-// const adminRoutes = require("./routes/adminRoutes");
-
 // Route Mounting
 app.use("/api/company", companyRoutes); // UEN check, register, login, profile
+app.use("/api/admin", adminRoutes); // Admin portal routes
 
 // for now
 // app.use("/api/sip", sipRoutes); // SIP form CRUD for companies
-// app.use("/api/admin", adminRoutes); // Admin portal routes
 
 // Health Check Route
 app.get("/api/health", (req, res) => {
