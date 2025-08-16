@@ -164,20 +164,54 @@
     <label>Email 2<input type="email" name="email_secondary"></label>
     <label>Website URL<input type="url" name="website_url"></label>
 
-    <label>Type of Company<span class="required-star">*</span><input type="text" name="type_of_company" required></label>
-    <label>Nature of Business
+    <label>Type of Company<span class="required-star">*</span>
+      <select name="type_of_company"required>
+        <option value="">-- Select Type --</option>
+        <option value="Education Institution">Education Institution</option>
+        <option value="Govt/Statutory Board">Govt/Statutory Board</option>
+        <option value="MNCs/Large company">MNCs/Large company</option>
+        <option value="Non-Profit Organisation">Non-Profit Organisation</option>
+        <option value="Start up">Start up</option>
+        <option value="Small and Medium Enterprises (SME) >S$100M">Small and Medium Enterprises (SME) >S$100M</option>
+        <option value="Small and Medium Enterprises (SME) &lt;=S$100M">Small and Medium Enterprises (SME) &lt;=S$100M</option>
+      </select>
+    </label>
+    <label>Nature of Business<span class="required-star">*</span>
       <select name="nature_of_business_main">
-        <option value="option1">Option 1</option>
-        <option value="option2">Option 2</option>
+        <option value="">-- Select Nature --</option>
+        <option value="Aerospace/Aeronautical/Aviation">Aerospace/Aeronautical/Aviation</option>
+        <option value="Apparel/Fashion">Apparel/Fashion</option>
+        <option value="Banking/Finance/Insurance">Banking/Finance/Insurance</option>
+        <option value="Construction/Cities/Infrastructure">Construction/Cities/Infrastructure</option>
+        <option value="E-Business/E-Commerce">E-Business/E-Commerce</option>
+        <option value="Education/Research/Training">Education/Research/Training</option>
+        <option value="Engineering">Engineering</option>
+        <option value="Environment/Water Supply/Sewerage/Waste Mgmt">Environment/Water Supply/Sewerage/Waste Mgmt</option>
+        <option value="Food & Beverage/Food Sciences/Bakery">Food & Beverage/Food Sciences/Bakery</option>
+        <option value="Government Ministry/Statutory Board">Government Ministry/Statutory Board</option>
+        <option value="Healthcare/Social Services">Healthcare/Social Services</option>
+        <option value="Hospitality">Hospitality</option>
+        <option value="Leisure/Lifestyle/Arts/Entertainment">Leisure/Lifestyle/Arts/Entertainment</option>
+        <option value="Life Sciences/Biomedical/Biotechnology/Veterinary">Life Sciences/Biomedical/Biotechnology/Veterinary</option>
+        <option value="Info-Communications/Info-technology">Info-Communications/Info-technology</option>
+        <option value="Manufacturing">Manufacturing</option>
+        <option value="Maritime/Shipping/Offshore">Maritime/Shipping/Offshore</option>
+        <option value="Meeting/Incentives/Conference/Exhibitions">Meeting/Incentives/Conference/Exhibitions</option>
+        <option value="Petrochemical/Chemical/Pharmaceutical">Petrochemical/Chemical/Pharmaceutical</option>
+        <option value="Professional/Consultancy Services">Professional/Consultancy Services</option>
+        <option value="Renovation/Interior Deco/Design">Renovation/Interior Deco/Design</option>
+        <option value="Security/Building/Properties">Security/Building/Properties</option>
+        <option value="Supply Chain Management/Logistics">Supply Chain Management/Logistics</option>
+        <option value="Tourism & Leisure">Tourism & Leisure</option>
       </select>
     </label>
     <label>Others<input type="text" name="nature_of_business_others"></label>
     <label>No. of Staff in Organisation<span class="required-star">*</span><input type="number" name="staff_count_total" required></label>
-    <label>No. of Staff in Department (where student will be attached)<span class="required-star">*</span><input type="number" name="staff_count_department" required></label>
+    <label>No. of Staff in Department (where student will be attached)<input type="number" name="staff_count_department"></label>
 
     <h4>Student Reporting Address</h4>
-    <label>Address<span class="required-star">*</span><input type="text" name="student_reporting_address" required></label>
-    <label>Postal Code<span class="required-star">*</span><input type="text" name="student_reporting_postal_code" required></label>
+    <label>Address<input type="text" name="student_reporting_address"></label>
+    <label>Postal Code<input type="text" name="student_reporting_postal_code"></label>
     </div>
 
     <!-- Section: Main Contact -->
@@ -185,9 +219,12 @@
       <h3>Section 2: Main Contact</h3>
       <label>Salutation<span class="required-star">*</span><input type="text" name="main_contact_salutation" required></label>
       <label>Name<span class="required-star">*</span><input type="text" name="main_contact_name" required></label>
+      <label>Department<input type="text" name="department"></label>
       <label>Designation<span class="required-star">*</span><input type="text" name="main_contact_designation" required></label>
-      <label>Email<span class="required-star">*</span><input type="email" name="main_contact_email" required></label>
-      <label>Tel<span class="required-star">*</span><input type="text" name="main_contact_tel" required></label>
+      <label>Email address<span class="required-star">*</span><input type="email" name="main_contact_email" required></label>
+      <label>Tel no.<span class="required-star">*</span><input type="text" name="main_contact_tel" required></label>
+      <label>Mobile no.<input type="text" name="main_contact_mobile"></label>
+      <label>Fax no.<input type="text" name="main_contact_fax"></label>
     </div>
 
     <!-- Section: SIP Schedule -->
@@ -195,32 +232,49 @@
       <h3>Section 3: SIP Schedule</h3>
       <label>Preferred Diplomas (Ctrl+Click to select multiple)
         <select name="preferred_diplomas" multiple>
-          <option>Applied Artificial Intelligence (AAI)</option>
-          <option>Big Data & Analytics (BDA)</option>
-          <option>Cybersecurity & Digital Forensics (CDF)</option>
-          <option>Immersive Media & Game Development (IGD)</option>
-          <option>Information Technology (ITO)</option>
+          <option value="Applied Artificial Intelligence (AAI)">Applied Artificial Intelligence (AAI)</option>
+          <option value="Big Data & Analytics (BDA)">Big Data & Analytics (BDA)</option>
+          <option value="Cybersecurity & Digital Forensics (CDF)">Cybersecurity & Digital Forensics (CDF)</option>
+          <option value="Immersive Media & Game Development (IGD)">Immersive Media & Game Development (IGD)</option>
+          <option value="Information Technology (ITO)">Information Technology (ITO)</option>
         </select>
       </label>
       <label>Preferred Duration (Months)<input type="number" name="preferred_duration_months"></label>
       <label>Preferred Start Month
         <select name="preferred_start_month">
-          <option value=""></option>
-          <option>Mar</option>
-          <option>Apr</option>
-          <option>Sep</option>
-          <option>Oct</option>
+          <option value="">-- Select Month --</option>
+          <option value="Mar">Mar</option>
+          <option value="Apr">Apr</option>
+          <option value="Sep">Sep</option>
+          <option value="Oct">Oct</option>
         </select>
       </label>
     </div>
 
     <!-- Section: Internship Requirements -->
     <div class="form-card">
-      <h3>Internship Requirements</h3>
-      <label>Diploma<span class="required-star">*</span><input type="text" name="internship_requirements[0][diploma]"></label>
-      <label>No. of Interns Required<span class="required-star">*</span><input type="number" name="internship_requirements[0][intern_count]"></label>
-      <label>Job Scope<span class="required-star">*</span><textarea name="internship_requirements[0][job_scope]"></textarea></label>
-      <label>Supervisor Name<span class="required-star">*</span><input type="text" name="internship_requirements[0][supervisor_name]"></label>
+      <h3>Section 4: No. of Interns Required & Job Scope</h3>
+      <label>Diploma<span class="required-star">*</span>
+        <select name="internship_requirements[0][diploma]" required>
+          <option value="">-- Select Diploma --</option>
+          <option value="AAI">AAI</option>
+          <option value="BDA">BDA</option>
+          <option value="CDF">CDF</option>
+          <option value="IGD">IGD</option>
+          <option value="ITO">ITO</option>
+        </select>
+      </label>
+      <label>No. of Interns Required<span class="required-star">*</span><input type="number" name="internship_requirements[0][intern_count]" required></label>
+      <label>Job Scope/Proposed Project Title & Description<span class="required-star">*</span><textarea name="internship_requirements[0][job_scope]" required></textarea></label>
+      <label>Name of Supervisor<span class="required-star">*</span><input type="text" name="internship_requirements[0][supervisor_name]" required></label>
+    </div>
+
+    <div class="form-card">
+      <h3>Section 5: Internship Details</h3>
+      <label>Monthly Allowance<span class="required-star">*</span><input type="number" name="internship_details[0][monthly_allowance]" required></label>
+      <label>Any Other Allowance<input type="text" name="internship_details[0][other_allowance]"></label>
+      <label>Block<span class="required-star">*</span><input type="text" name="block" required></label>
+      <
     </div>
 
     <!-- Section: Others -->
