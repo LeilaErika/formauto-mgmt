@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Login</title>
+    <style>
+      body {
+        background: #fff;
+        min-height: 100vh;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: Arial, sans-serif;
+        color: #333;
+      }
+      .header {
+        color: #fff;
+        background: #d71920;
+        width: 100vw;
+        padding: 1.5rem 0;
+        text-align: center;
+        font-size: 2rem;
+        font-weight: bold;
+        letter-spacing: 2px;
+        margin-bottom: 2rem;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .card {
+        background: #f5f5f5;
+        padding: 2rem 2.5rem 1.5rem 2.5rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+        min-width: 320px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+      }
+      .card input {
+        width: 100%;
+        margin-bottom: 1rem;
+        padding: 0.75rem;
+        border: 1px solid #ccc;
+        border-radius: 6px;
+        font-size: 1rem;
+        background: #fff;
+        color: #333;
+        transition: border 0.2s;
+      }
+      .card input:focus {
+        border: 1.5px solid #0072ce;
+        outline: none;
+      }
+      .card button {
+        width: 100%;
+        background: #0072ce;
+        color: #fff;
+        border: none;
+        border-radius: 6px;
+        padding: 0.75rem;
+        font-size: 1.1rem;
+        font-weight: bold;
+        cursor: pointer;
+        margin-top: 0.5rem;
+        transition: background 0.2s;
+      }
+      .card button:hover {
+        background: #005bb5;
+      }
+      #adminLoginMsg {
+        color: #d71920;
+        margin-top: 1rem;
+        text-align: center;
+        min-height: 1.5em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="header">Admin Login</div>
+    <div class="card">
+      <form id="adminLoginForm">
+        <input
+          type="email"
+          id="adminEmail"
+          placeholder="Admin Email"
+          required
+        />
+        <input
+          type="password"
+          id="adminPassword"
+          placeholder="Password"
+          required
+        />
+        <button type="submit">Login as Admin</button>
+      </form>
+      <div id="adminLoginMsg"></div>
+    </div>
+    <script>
+      const API_BASE = "http://localhost:5000/api/admin";
+      document
+        .getElementById("adminLoginForm")
+        .addEventListener("submit", async (e) => {
+          e.preventDefault();
+          const email = document.getElementById("adminEmail").value.trim();
+          const password = document
+            .getElementById("adminPassword")
+            .value.trim();
+          const msg = document.getElementById("adminLoginMsg");
+          msg.textContent = "";
+          msg.style.color = "#D71920";
+          if (!email || !password) {
+            msg.textContent = "Email and password are required.";
+            return;
+          }
+          try {
+            const res = await fetch(`${API_BASE}/login`, {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({ email, password }),
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.message || "Login failed");
+            localStorage.setItem("adminToken", data.token);
+            msg.textContent =
+              "✅ Login successful! Redirecting to admin portal…";
+            msg.style.color = "#1ca14a";
+            setTimeout(() => {
+              window.location.href = "Admin.html";
+            }, 1500);
+          } catch (err) {
+            msg.textContent = err.message;
+            msg.style.color = "#D71920";
+          }
+        });
+    </script>
+  </body>
+</html>
