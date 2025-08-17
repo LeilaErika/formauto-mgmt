@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Create a New SIP Form</title>
+    <style>
+        body {
+            background: #fff;
+            min-height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #333;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .header {
+            color: #fff;
+            background: #d71920;
+            width: 100vw;
+            padding: 1.5rem 0;
+            text-align: center;
+            font-size: 2rem;
+            font-weight: bold;
+            letter-spacing: 2px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+            margin-bottom: 1.5rem;
+        }
+
+        .logo-title {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            width: 90%;
+            max-width: 1000px;
+        }
+
+        .logo-title img {
+            height: 80px;
+        }
+
+        .logo-title-text {
+            font-size: 1.5rem;
+            font-weight: bold;
+            line-height: 1.2;
+        }
+
+        .instructions {
+            width: 90%;
+            max-width: 1000px;
+            background: #f5f5f5;
+            border: 1px solid #ccc;
+            padding: 1rem 1.5rem;
+            color: red;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+        }
+
+        .instructions h3 {
+            margin-top: 0;
+        }
+
+        .form-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            width: 90%;
+            max-width: 1000px;
+            margin-bottom: 2rem;
+        }
+
+        .form-card {
+            background: #f5f5f5;
+            padding: 1.5rem 2rem;
+            border-radius: 12px;
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+            min-width: 250px;
+            flex: 1 1 300px;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-card h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #d71920;
+        }
+
+        .form-card label {
+            display: flex;
+            flex-direction: column;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .form-card input,
+        .form-card select,
+        .form-card textarea {
+            margin-top: 0.25rem;
+            padding: 8px;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 0.95rem;
+        }
+
+        .form-card button {
+            background: #0072ce;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.75rem 1.25rem;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        .form-card button:hover {
+            background: #005bb5;
+        }
+
+        .required-star {
+            color: red;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">Student Internship Programme (SIP)</div>
+
+    <div class="logo-title">
+        <img src="https://honour.sg/wp-content/uploads/2020/01/Temasek-Poly-Logo.png" alt="Temasek Polytechnic Logo">
+        <div class="logo-title-text"> School Of Informatics & IT<br> Application Form </div>
+    </div>
+
+    <div class="instructions">
+        <h3>Instructions</h3>
+        <ol>
+            <li>Complete this form and save form using organisation name in “.docx” format e.g. ABC.docx</li>
+            <li>Do not save this form in pdf format</li>
+            <li>Do not modify this form as it will affect the automated data extraction process</li>
+            <li>All fields marked with an asterisk (<span class="required-star">*</span>) are required</li>
+        </ol>
+    </div>
+
+    <form id="sipForm" class="form-container">
+
+        <!-- Section 1: Organisation -->
+        <div class="form-card">
+            <h3>Section 1: Organisation</h3>
+            <label>Organisation UEN<span class="required-star">*</span><input type="text" name="uen" required></label>
+            <label>Organisation Name<span class="required-star">*</span><input type="text" name="organisation_name"
+                    required></label>
+            <label>Block<span class="required-star">*</span><input type="text" name="block" required></label>
+            <label>Street<span class="required-star">*</span><input type="text" name="street" required></label>
+            <label>Unit Number<span class="required-star">*</span><input type="text" name="unit_number"
+                    required></label>
+            <label>Unit Number Secondary<span class="required-star">*</span><input type="text"
+                    name="unit_number_secondary" required></label>
+            <label>Building<span class="required-star">*</span><input type="text" name="building_name" required></label>
+            <label>State<span class="required-star">*</span><input type="text" name="state" value="Singapore"
+                    required></label>
+            <label>Country<span class="required-star">*</span><input type="text" name="country" value="Singapore"
+                    required></label>
+            <label>Postal Code<span class="required-star">*</span><input type="text" name="postal_code"
+                    required></label>
+
+            <h4>Contact Info</h4>
+            <label>Main Tel<span class="required-star">*</span><input type="text" name="tel_main" required></label>
+            <label>Fax<span class="required-star">*</span><input type="text" name="fax" required></label>
+            <label>Organisation General Email<input type="email" name="email_general"></label>
+            <label>Email 2<input type="email" name="email_secondary"></label>
+            <label>Website URL<input type="url" name="website_url"></label>
+
+            <label>Type of Company<span class="required-star">*</span>
+                <select name="type_of_company" required>
+                    <option value="">-- Select Type --</option>
+                    <option value="Education Institution">Education Institution</option>
+                    <option value="Govt/Statutory Board">Govt/Statutory Board</option>
+                    <option value="MNCs/Large company">MNCs/Large company</option>
+                    <option value="Non-Profit Organisation">Non-Profit Organisation</option>
+                    <option value="Start up">Start up</option>
+                    <option value="Small and Medium Enterprises (SME) >S$100M">Small and Medium Enterprises (SME)
+                        >S$100M</option>
+                    <option value="Small and Medium Enterprises (SME) &lt;=S$100M">Small and Medium Enterprises (SME)
+                        &lt;=S$100M
+                    </option>
+                </select>
+            </label>
+            <label>Nature of Business<span class="required-star">*</span>
+                <select name="nature_of_business_main">
+                    <option value="">-- Select Nature --</option>
+                    <option value="Aerospace/Aeronautical/Aviation">Aerospace/Aeronautical/Aviation</option>
+                    <option value="Apparel/Fashion">Apparel/Fashion</option>
+                    <option value="Banking/Finance/Insurance">Banking/Finance/Insurance</option>
+                    <option value="Construction/Cities/Infrastructure">Construction/Cities/Infrastructure</option>
+                    <option value="E-Business/E-Commerce">E-Business/E-Commerce</option>
+                    <option value="Education/Research/Training">Education/Research/Training</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Environment/Water Supply/Sewerage/Waste Mgmt">Environment/Water Supply/Sewerage/Waste
+                        Mgmt
+                    </option>
+                    <option value="Food & Beverage/Food Sciences/Bakery">Food & Beverage/Food Sciences/Bakery</option>
+                    <option value="Government Ministry/Statutory Board">Government Ministry/Statutory Board</option>
+                    <option value="Healthcare/Social Services">Healthcare/Social Services</option>
+                    <option value="Hospitality">Hospitality</option>
+                    <option value="Leisure/Lifestyle/Arts/Entertainment">Leisure/Lifestyle/Arts/Entertainment</option>
+                    <option value="Life Sciences/Biomedical/Biotechnology/Veterinary">Life
+                        Sciences/Biomedical/Biotechnology/Veterinary</option>
+                    <option value="Info-Communications/Info-technology">Info-Communications/Info-technology</option>
+                    <option value="Manufacturing">Manufacturing</option>
+                    <option value="Maritime/Shipping/Offshore">Maritime/Shipping/Offshore</option>
+                    <option value="Meeting/Incentives/Conference/Exhibitions">Meeting/Incentives/Conference/Exhibitions
+                    </option>
+                    <option value="Petrochemical/Chemical/Pharmaceutical">Petrochemical/Chemical/Pharmaceutical</option>
+                    <option value="Professional/Consultancy Services">Professional/Consultancy Services</option>
+                    <option value="Renovation/Interior Deco/Design">Renovation/Interior Deco/Design</option>
+                    <option value="Security/Building/Properties">Security/Building/Properties</option>
+                    <option value="Supply Chain Management/Logistics">Supply Chain Management/Logistics</option>
+                    <option value="Tourism & Leisure">Tourism & Leisure</option>
+                </select>
+            </label>
+            <label>Others<input type="text" name="nature_of_business_others"></label>
+            <label>No. of Staff in Organisation<span class="required-star">*</span><input type="number"
+                    name="staff_count_total" required></label>
+            <label>No. of Staff in Department (where student will be attached)<input type="number"
+                    name="staff_count_department"></label>
+
+            <h4>Student Reporting Address</h4>
+            <label>Address<input type="text" name="student_reporting_address"></label>
+            <label>Postal Code<input type="text" name="student_reporting_postal_code"></label>
+        </div>
+
+        <!-- Section: Main Contact -->
+        <div class="form-card">
+            <h3>Section 2: Main Contact</h3>
+            <label>Salutation<span class="required-star">*</span><input type="text" name="main_contact_salutation"
+                    required></label>
+            <label>Name<span class="required-star">*</span><input type="text" name="main_contact_name" required></label>
+            <label>Department<input type="text" name="department"></label>
+            <label>Designation<span class="required-star">*</span><input type="text" name="main_contact_designation"
+                    required></label>
+            <label>Email address<span class="required-star">*</span><input type="email" name="main_contact_email"
+                    required></label>
+            <label>Tel no.<span class="required-star">*</span><input type="text" name="main_contact_tel"
+                    required></label>
+            <label>Mobile no.<input type="text" name="main_contact_mobile"></label>
+            <label>Fax no.<input type="text" name="main_contact_fax"></label>
+        </div>
+
+        <!-- Section: SIP Schedule -->
+        <div class="form-card">
+            <h3>Section 3: SIP Schedule</h3>
+            <label>Preferred Diplomas (Ctrl+Click to select multiple)
+                <select name="preferred_diplomas" multiple>
+                    <option value="Applied Artificial Intelligence (AAI)">Applied Artificial Intelligence (AAI)</option>
+                    <option value="Big Data & Analytics (BDA)">Big Data & Analytics (BDA)</option>
+                    <option value="Cybersecurity & Digital Forensics (CDF)">Cybersecurity & Digital Forensics (CDF)
+                    </option>
+                    <option value="Immersive Media & Game Development (IGD)">Immersive Media & Game Development (IGD)
+                    </option>
+                    <option value="Information Technology (ITO)">Information Technology (ITO)</option>
+                </select>
+            </label>
+            <label>Preferred Duration (Months)<input type="number" name="preferred_duration_months"></label>
+            <label>Preferred Start Month
+                <select name="preferred_start_month">
+                    <option value="">-- Select Month --</option>
+                    <option value="Mar">Mar</option>
+                    <option value="Apr">Apr</option>
+                    <option value="Sep">Sep</option>
+                    <option value="Oct">Oct</option>
+                </select>
+            </label>
+        </div>
+
+        <!-- Section: Internship Requirements -->
+        <div class="form-card">
+            <h3>Section 4: No. of Interns Required & Job Scope</h3>
+            <label>Diploma<span class="required-star">*</span>
+                <select name="internship_requirements[0][diploma]" required>
+                    <option value="">-- Select Diploma --</option>
+                    <option value="AAI">AAI</option>
+                    <option value="BDA">BDA</option>
+                    <option value="CDF">CDF</option>
+                    <option value="IGD">IGD</option>
+                    <option value="ITO">ITO</option>
+                </select>
+            </label>
+            <label>No. of Interns Required<span class="required-star">*</span><input type="number"
+                    name="internship_requirements[0][intern_count]" required></label>
+            <label>Job Scope/Proposed Project Title & Description<span class="required-star">*</span><textarea
+                    name="internship_requirements[0][job_scope]" required></textarea></label>
+            <label>Name of Supervisor<span class="required-star">*</span><input type="text"
+                    name="internship_requirements[0][supervisor_name]" required></label>
+        </div>
+
+        <div class="form-card">
+            <h3>Section 5: Internship Details</h3>
+            <label>Monthly Allowance<span class="required-star">*</span><input type="number"
+                    name="internship_details[0][monthly_allowance]" required></label>
+            <label>Any Other Allowance<input type="text" name="internship_details[0][other_allowance]"></label>
+            <label>Overtime (OT) Compensation
+                <select name="internship_details[0][overtime_compensation]">
+                    <option value="">-- Select Option --</option>
+                    <option value="OT Pay">OT Pay</option>
+                    <option value="Off Days in Lieu">Off Days in Lieu</option>
+                    <option value="Not Applicable">Not Applicable</option>
+                </select>
+            </label>
+            <label>Transportation
+                <select name="internship_details[0][transportation]">
+                    <option value="">-- Select Option --</option>
+                    <option value="Provided Everyday">Provided Everyday</option>
+                    <option value="For Overtime Only">For Overtime Only</option>
+                    <option value="Not Applicable">Not Applicable</option>
+                </select>
+            </label>
+            <label>No. Of Days per Week<span class="required-star">*</span><input type="number"
+                    name="internship_details[0][days_per_week]" required></label>
+            <fieldset>
+                <legend>Reporting Hours</legend>
+
+                <!-- Monday to Friday -->
+                <label>Monday – Friday (From)
+                    <input type="time" name="mon_fri_from">
+                </label>
+                <label>Monday – Friday (To)
+                    <input type="time" name="mon_fri_to">
+                </label>
+                <br><br>
+
+                <!-- Saturday -->
+                <label>Saturday (From)
+                    <input type="time" name="sat_from">
+                </label>
+                <label>Saturday (To)
+                    <input type="time" name="sat_to">
+                </label>
+                <br><br>
+
+                <!-- Sunday / Public Holiday -->
+                <label>Sunday / Public Holiday (From)
+                    <input type="time" name="sun_from">
+                </label>
+                <label>Sunday / Public Holiday (To)
+                    <input type="time" name="sun_to">
+                </label>
+            </fieldset>
+            <label>Shift work requirement<input type="text" name="internship_details[0][shift_work]" required></label>
+            <label>Interview Requirement<span class="required-star">*</span>
+                <select name="internship_details[0][interview_requirement]" required>
+                    <option value="">-- Select Requirement --</option>
+                    <option value="Face-to-face Interview">Face-to-face Interview</option>
+                    <option value="Telephone Interview">Telephone Interview</option>
+                    <option value="Remote Interview">Remote Interview</option>
+                    <option value="No Interview Required">No Interview Required</option>
+                </select>
+            </label>
+            <label>Special Requirement<input type="text" name="internship_details[0][special_requirement]"></label>
+            <label>Overseas Assignment
+                <select name="internship_details[0][overseas_assignment_choice]">
+                    <option value="">-- Select One --</option>
+                    <option value="Yes">Yes</option>
+                    <option value="Maybe">Maybe</option>
+                    <option value="No">No</option>
+                </select>
+            </label>
+            <label>Estimated Period/Frequency<input type="text" name="internship_details[0][period_frequency]"></label>
+            <label>Country to be attached to<input type="text" name="internship_details[0][country]"></label>
+        </div>
+
+        <div class="form-card">
+            <h3>Section 6: Overseas Internship (If Applicable)</h3>
+            <fieldset>
+                <legend>OSIP Country</legend>
+
+                <!-- Country, State, City -->
+                <label>Country:
+                    <input type="text" name="overseas_internship_country">
+                </label>
+                <br><br>
+
+                <label>State:
+                    <input type="text" name="overseas_internship_state">
+                </label>
+                <label>City:
+                    <input type="text" name="overseas_internship_city">
+                </label>
+                <br><br>
+
+                <label>Others:
+                    <input type="text" name="overseas_internship_other_country_details" placeholder="Provide details">
+                </label>
+            </fieldset>
+
+            <br>
+
+            <fieldset>
+                <legend>Benefits Provided</legend>
+                <label><input type="checkbox" name="benefits[]" value="Airfare"> Airfare</label><br>
+                <label><input type="checkbox" name="benefits[]" value="Airport Pickup"> Airport Pickup</label><br>
+                <label><input type="checkbox" name="benefits[]" value="Accommodation"> Accommodation</label><br>
+                <label><input type="checkbox" name="benefits[]" value="Meals"> Meals</label><br>
+                <label><input type="checkbox" name="benefits[]" value="Travel Insurance"> Travel Insurance</label>
+                <br>
+                <label>Other Benefits:
+                    <input type="text" name="benefits_other" placeholder="Provide details">
+                </label>
+            </fieldset>
+
+            <br>
+
+            <fieldset>
+                <legend>OSIP Organisation’s Relationship with a Singapore Company (if any)</legend>
+                <label><input type="checkbox" name="relationship[]" value="Parent Company"> Parent Company</label><br>
+                <label><input type="checkbox" name="relationship[]" value="Sister Company"> Sister Company</label><br>
+                <label><input type="checkbox" name="relationship[]" value="Subsidiary"> Subsidiary</label><br>
+                <label><input type="checkbox" name="relationship[]" value="Partner"> Partner</label><br>
+                <label><input type="checkbox" name="relationship[]" value="Not Applicable"> Not Applicable</label>
+            </fieldset>
+        </div>
+
+        <!-- Section: Others -->
+        <div class="form-card">
+            <h3>Section 7: Others</h3>
+            <fieldset>
+                <legend>How did you get to know about this internship programme?</legend>
+                <label><input type="checkbox" name="awareness[]" value="Email"> Email</label>
+                <label><input type="checkbox" name="awareness[]" value="Referral"> Referral</label>
+                <label><input type="checkbox" name="awareness[]" value="Temasek Polytechnic Website"> Temasek
+                    Polytechnic
+                    Website</label>
+                <label><input type="checkbox" name="awareness[]" value="Others"> Others:
+                    <input type="text" name="awareness_other" placeholder="Provide details">
+                </label>
+            </fieldset>
+
+            <br>
+
+            <fieldset>
+                <legend>Temasek Polytechnic Contact Info <small>(if you have already been in contact with us regarding
+                        SIP)</small></legend>
+
+                <label>Name:
+                    <input type="text" name="tp_contact_name">
+                </label>
+                <br><br>
+
+                <label>Diploma:
+                    <input type="text" name="tp_contact_diploma">
+                </label>
+            </fieldset>
+            <label>Would you like to be contacted for future engagements with TP?<span class="required-star">*</span>
+                <select name="future_engagements" required>
+                    <option value="">-- Select --</option>
+                    <option>Yes</option>
+                    <option>No</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-card" style="align-items:center;">
+            <button type="submit">Submit Form</button>
+        </div>
+    </form>
+
+    <div
+        style="font-family: Arial, sans-serif; font-size: 15px; line-height: 1.8; color: #333; text-align: center; max-width: 800px; margin: 0 auto;">
+        <p> We seek your understanding that <b>we cannot guarantee the assignment of students</b> to your organisation.
+            While every effort will be made to meet your request, the final placement will depend on the availability of
+            students and the suitability of your training programme. </p>
+        <div
+            style="border-left: 4px solid #cc0000; padding: 12px 16px; background-color: #fdf2f2; margin: 20px auto; display: inline-block; text-align: left; max-width: 700px;">
+            <p style="margin: 0;"> <b>Important Note:</b><br> The conduct of the SIP shall be governed by the <a
+                    href="https://for.edu.sg/sip-employer-handbook" target="_blank"
+                    style="color:#0056b3; text-decoration:underline;">Employer Handbook</a>. By submitting this form,
+                your organisation is deemed to have agreed to adhere to all guidelines, including <b>Risk Management as
+                    stipulated by the WSH Regulations</b>, to comply with all requirements, and to undertake all
+                obligations imposed onto your organisation as set forth in the Employer Handbook. Your organisation
+                shall provide the relevant Risk Assessment (RA) for all work-related activities and <b>not place interns
+                    in an unsafe situation</b>. </p>
+        </div>
+        <p> By submitting this form, your organisation agrees that <b>Temasek Polytechnic (TP)</b> will be authorised to
+            share with the other polytechnics information related to student internships for the purpose of promoting
+            best practices in internship. This agreement is applicable when TP intern(s) is/are placed in your
+            organisation. </p>
+        <p style="margin-top: 25px; font-weight: bold; font-size: 16px; color:#006600;"> Thank you. </p>
+    </div>
+
+    <script>
+        const form = document.getElementById('sipForm');
+
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData.entries());
+
+            data.preferred_diplomas = [...form.querySelector('select[name="preferred_diplomas"]').selectedOptions].map(opt => opt.value);
+
+            data.benefits = [...form.querySelectorAll('input[name="benefits[]"]:checked')].map(cb => cb.value);
+            data.relationship_with_sg_company = [...form.querySelectorAll('input[name="relationship[]"]:checked')].map(cb => cb.value);
+            data.awareness = [...form.querySelectorAll('input[name="awareness[]"]:checked')].map(cb => cb.value);
+
+            try {
+                const res = await fetch('/api/sip', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                const result = await res.json();
+                if (result.success) {
+                    alert('Form submitted successfully!');
+                    form.reset();
+                } else {
+                    alert('Error: ' + result.message);
+                }
+            } catch (err) {
+                console.error(err);
+                alert('Server error, please try again later.');
+            }
+        });
+    </script>
+
+</body>
+
+</html>
