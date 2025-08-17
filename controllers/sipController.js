@@ -1,4 +1,4 @@
-<<<<<<< HEAD
+
 const mongoose = require("mongoose");
 const SIPForm = require("../models/SipForm");
 
@@ -296,12 +296,11 @@ exports.deleteSIPForm = async (req, res) => {
   }
 };
 
-exports.downloadSIPFormPDF = async (req, res) => {  };   
-=======
+exports.downloadSIPFormExcel = async (req, res) => {  };   
 // exports.createSIPForm = async (req, res) => { ... };
 // exports.getMySubmissions = async (req, res) => { ... };
 // exports.getSIPFormById = async (req, res) => { ... };
 // exports.updateSIPForm = async (req, res) => { ... };
 // exports.deleteSIPForm = async (req, res) => { ... };
 // exports.downloadSIPFormPDF = async (req, res) => { ... };
->>>>>>> 7bb6f56a7f7fdf2988bff9f54eecd16ceec92fa6
+
