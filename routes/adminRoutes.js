@@ -1,37 +1,23 @@
-// const express = require("express");
-// const router = express.Router();
-// const {
-//   loginAdmin,
-//   getAllSubmissions,
-//   getSubmissionById,
-//   updateSubmission,
-//   deleteSubmission,
-//   downloadSubmissionPDF,
-//   exportSubmissionsToExcel,
-// } = require("../controllers/adminController");
-// const { verifyToken, verifyAdmin } = require("../middleware/authMiddleware");
-
-// router.get("/submissions", verifyToken, verifyAdmin, getAllSubmissions);
-// router.get("/submissions/:id", verifyToken, verifyAdmin, getSubmissionById);
-// router.put("/submissions/:id", verifyToken, verifyAdmin, updateSubmission);
-// router.delete("/submissions/:id", verifyToken, verifyAdmin, deleteSubmission);
-// router.get("/download/:id", verifyToken, verifyAdmin, downloadSubmissionPDF);
-// router.get("/export/excel", verifyToken, verifyAdmin, exportSubmissionsToExcel);
-
-// routes/adminRoutes.js
 const express = require("express");
 const router = express.Router();
 const adminAuth = require("../middleware/adminAuth");
+
 const {
   loginAdmin,
   getAllSubmissions,
   getSubmissionByUEN,
   deleteCompanyByUEN,
+  deleteSIPFormById,
+  exportSIPFormsExcel,
 } = require("../controllers/adminController");
 
 router.post("/login", loginAdmin);
 router.get("/submissions", adminAuth, getAllSubmissions);
 router.get("/submissions/:uen", adminAuth, getSubmissionByUEN);
 router.delete("/submissions/:uen", adminAuth, deleteCompanyByUEN);
+
+// New admin SIP form management endpoints
+router.delete("/sip-forms/:id", adminAuth, deleteSIPFormById);
+router.get("/sip-forms/export/excel", adminAuth, exportSIPFormsExcel);
 
 module.exports = router;

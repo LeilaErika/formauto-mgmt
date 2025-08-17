@@ -89,6 +89,22 @@
     <div class="card">
       <button class="logout-btn" id="logoutBtn">Logout</button>
       <h2>All Submissions</h2>
+      <div style="display: flex; gap: 1rem; margin-bottom: 1rem">
+        <button
+          id="exportExcelBtn"
+          style="
+            background: #0072ce;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1.2rem;
+            font-weight: bold;
+            cursor: pointer;
+          "
+        >
+          Export SIP Forms as Excel
+        </button>
+      </div>
       <form
         id="searchForm"
         style="
@@ -147,12 +163,62 @@
             <th>Submission ID</th>
             <th>Status</th>
             <th>Created At</th>
+            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
           <!-- Submissions will be loaded here -->
         </tbody>
       </table>
+      <!-- Modal for SIP forms -->
+      <div
+        id="sipModal"
+        style="
+          display: none;
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100vw;
+          height: 100vh;
+          background: rgba(0, 0, 0, 0.4);
+          z-index: 1000;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <div
+          style="
+            background: #fff;
+            border-radius: 10px;
+            max-width: 700px;
+            width: 95vw;
+            margin: 40px auto;
+            padding: 2rem;
+            position: relative;
+          "
+        >
+          <button
+            id="closeSipModal"
+            style="
+              position: absolute;
+              top: 10px;
+              right: 10px;
+              background: #d71920;
+              color: #fff;
+              border: none;
+              border-radius: 50%;
+              width: 32px;
+              height: 32px;
+              font-size: 18px;
+              cursor: pointer;
+            "
+          >
+            &times;
+          </button>
+          <h3 id="sipModalTitle">SIP Forms</h3>
+          <div id="sipModalContent">Loading...</div>
+        </div>
+      </div>
     </div>
     <script>
       const API_BASE = "http://localhost:5000/api/admin";
@@ -183,7 +249,7 @@
         tbody.innerHTML = "";
         if (!companies || companies.length === 0) {
           tbody.innerHTML =
-            '<tr><td colspan="4">No submissions found.</td></tr>';
+            '<tr><td colspan="5">No submissions found.</td></tr>';
           return;
         }
         companies.forEach((sub) => {
@@ -193,9 +259,114 @@
           }</td><td>${sub.status || "-"}</td><td>${
             sub.createdAt ? new Date(sub.createdAt).toLocaleString() : "-"
           }</td>`;
+          // Actions: View SIP forms for this company
+          const actionsTd = document.createElement("td");
+          const viewBtn = document.createElement("button");
+          viewBtn.textContent = "View SIP Forms";
+          viewBtn.style.background = "#0072ce";
+          viewBtn.style.color = "#fff";
+          viewBtn.style.border = "none";
+          viewBtn.style.borderRadius = "6px";
+          viewBtn.style.padding = "0.3rem 0.8rem";
+          viewBtn.style.fontWeight = "bold";
+          viewBtn.style.cursor = "pointer";
+          viewBtn.onclick = () => openSipModal(sub.uen, sub.organisation_name);
+          actionsTd.appendChild(viewBtn);
+          tr.appendChild(actionsTd);
           tbody.appendChild(tr);
         });
       }
+
+      // Modal logic: View all SIP forms for a company
+      async function openSipModal(uen, orgName) {
+        const modal = document.getElementById("sipModal");
+        const content = document.getElementById("sipModalContent");
+        const title = document.getElementById("sipModalTitle");
+        modal.style.display = "flex";
+        title.textContent = `SIP Forms for ${orgName || uen}`;
+        content.innerHTML = "Loading...";
+        try {
+          // Get all SIP forms for this UEN
+          const res = await fetch(
+            `http://localhost:5000/api/admin/sip-forms?uen=${uen}`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          const data = await res.json();
+          if (!res.ok)
+            throw new Error(data.message || "Failed to load SIP forms");
+          const forms = data.forms || [];
+          if (!forms.length) {
+            content.innerHTML =
+              "<div>No SIP forms found for this company.</div>";
+            return;
+          }
+          let html = '<table style="width:100%; border-collapse:collapse;">';
+          html +=
+            "<thead><tr><th>ID</th><th>Created At</th><th>Actions</th></tr></thead><tbody>";
+          forms.forEach((form) => {
+            html += `<tr><td>${form._id}</td><td>${
+              form.createdAt ? new Date(form.createdAt).toLocaleString() : "-"
+            }</td><td><button style="background:#d71920;color:#fff;border:none;border-radius:6px;padding:0.3rem 0.8rem;font-weight:bold;cursor:pointer;" onclick="window.handleDeleteSingleSIPForm && window.handleDeleteSingleSIPForm('${
+              form._id
+            }','${uen}','${orgName}')">Delete</button></td></tr>`;
+          });
+          html += "</tbody></table>";
+          content.innerHTML = html;
+        } catch (err) {
+          content.innerHTML = `<div style='color:#d71920;'>${err.message}</div>`;
+        }
+      }
+
+      // Expose delete handler globally for modal
+      window.handleDeleteSingleSIPForm = async function (formId, uen, orgName) {
+        if (!confirm("Delete this SIP form?")) return;
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/admin/sip-forms/${formId}`,
+            {
+              method: "DELETE",
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          if (!res.ok) throw new Error("Delete failed");
+          openSipModal(uen, orgName); // reload modal
+        } catch (err) {
+          alert("Delete failed: " + err.message);
+        }
+      };
+
+      // Modal close
+      document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("closeSipModal").onclick = function () {
+          document.getElementById("sipModal").style.display = "none";
+        };
+      });
+
+      // Export all SIP forms as Excel
+      document.getElementById("exportExcelBtn").onclick = async function () {
+        try {
+          const res = await fetch(
+            `http://localhost:5000/api/admin/sip-forms/export/excel`,
+            {
+              headers: { Authorization: `Bearer ${token}` },
+            }
+          );
+          if (!res.ok) throw new Error("Failed to export Excel");
+          const blob = await res.blob();
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = "sip_forms.xlsx";
+          document.body.appendChild(a);
+          a.click();
+          a.remove();
+          window.URL.revokeObjectURL(url);
+        } catch (err) {
+          alert("Export failed: " + err.message);
+        }
+      };
 
       // Search by UEN
       document

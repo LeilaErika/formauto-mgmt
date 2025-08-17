@@ -142,10 +142,10 @@
       localStorage.setItem("token", data.token);
       const loginMsg = document.getElementById("loginMsg");
       loginMsg.textContent =
-        "✅ Login successful! Redirecting to your company profile…";
+        "✅ Login successful! Redirecting to company portal…";
       loginMsg.style.color = "#1ca14a";
       setTimeout(() => {
-        window.location.href = "profileCompany.html";
+        window.location.href = "company-portal.html";
       }, 1500);
     } catch (err) {
       document.getElementById("loginMsg").textContent = err.message;

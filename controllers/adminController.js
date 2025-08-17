@@ -1,3 +1,5 @@
+const SipForm = require("../models/SipForm");
+const excelExport = require("../utils/excelExport");
 const Admin = require("../models/Admin");
 const Company = require("../models/Company");
 const bcrypt = require("bcrypt");
@@ -101,6 +103,56 @@ exports.deleteCompanyByUEN = async (req, res) => {
       .json({ message: `Company with UEN ${uen} deleted successfully.` });
   } catch (error) {
     console.error("Error deleting company:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
+
+// DELETE /api/admin/sip-forms/:id
+exports.deleteSIPFormById = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await SipForm.findByIdAndDelete(id);
+    if (!deleted) {
+      return res
+        .status(404)
+        .json({ message: `No SIP form found for ID ${id}` });
+    }
+    res
+      .status(200)
+      .json({ message: `SIP form with ID ${id} deleted successfully.` });
+  } catch (error) {
+    console.error("Error deleting SIP form:", error);
+    res.status(500).json({ message: "Server error. Please try again later." });
+  }
+};
+
+// GET /api/admin/sip-forms/export/excel
+exports.exportSIPFormsExcel = async (req, res) => {
+  try {
+    const forms = await SipForm.find();
+    // If you have a utility to convert to Excel, use it. Otherwise, send JSON as fallback.
+    if (
+      excelExport &&
+      typeof excelExport.exportSubmissionsExcel === "function"
+    ) {
+      const buffer = await excelExport.exportSubmissionsExcel(forms);
+      res.setHeader(
+        "Content-Disposition",
+        'attachment; filename="sip_forms.xlsx"'
+      );
+      res.setHeader(
+        "Content-Type",
+        "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      );
+      return res.send(buffer);
+    } else {
+      // fallback: send JSON
+      res
+        .status(200)
+        .json({ message: "Excel export utility not implemented.", forms });
+    }
+  } catch (error) {
+    console.error("Error exporting SIP forms as Excel:", error);
     res.status(500).json({ message: "Server error. Please try again later." });
   }
 };
